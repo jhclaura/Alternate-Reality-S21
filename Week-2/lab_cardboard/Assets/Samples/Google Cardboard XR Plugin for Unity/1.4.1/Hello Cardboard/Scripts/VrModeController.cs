@@ -108,10 +108,10 @@ public class VrModeController : MonoBehaviour
         else
         {
             // TODO(b/171727815): Add a button to switch to VR mode.
-            if (_isScreenTouched)
-            {
-                EnterVR();
-            }
+            //if (_isScreenTouched)
+            //{
+            //    EnterVR();
+            //}
         }
 #endif
     }
@@ -121,8 +121,6 @@ public class VrModeController : MonoBehaviour
     /// </summary>
     public void EnterVR()
     {
-        Debug.Log("click");
-
         // Hide NonVR objects
         foreach (GameObject _object in nonVrObjects)
         {

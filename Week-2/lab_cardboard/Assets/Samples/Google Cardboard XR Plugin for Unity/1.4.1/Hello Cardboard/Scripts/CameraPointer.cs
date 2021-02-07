@@ -24,6 +24,8 @@ using UnityEngine;
 /// </summary>
 public class CameraPointer : MonoBehaviour
 {
+    public GvrReticlePointer reticlePointer;
+
     private const float _maxDistance = 10;
     private GameObject _gazedAtObject = null;
 
@@ -41,9 +43,21 @@ public class CameraPointer : MonoBehaviour
             if (_gazedAtObject != hit.transform.gameObject)
             {
                 // New GameObject.
-                _gazedAtObject?.SendMessage("OnPointerExit");
+                _gazedAtObject?.SendMessage("OnPointerExit", SendMessageOptions.DontRequireReceiver);
                 _gazedAtObject = hit.transform.gameObject;
-                _gazedAtObject.SendMessage("OnPointerEnter");
+                _gazedAtObject.SendMessage("OnPointerEnter", SendMessageOptions.DontRequireReceiver);
+                if (reticlePointer)
+                {
+                    reticlePointer.OnPointerEnter(hit, true);
+                }
+            }
+            else if (_gazedAtObject == hit.transform.gameObject)
+            {
+                _gazedAtObject.SendMessage("OnPointerHover", SendMessageOptions.DontRequireReceiver);
+                if (reticlePointer)
+                {
+                    reticlePointer.OnPointerHover(hit, true);
+                }
             }
         }
         else
@@ -52,6 +66,10 @@ public class CameraPointer : MonoBehaviour
             // AltReality: Set SendMessageOptions to be DontRequireReceiver, to get rid of error
             _gazedAtObject?.SendMessage("OnPointerExit", SendMessageOptions.DontRequireReceiver);
             _gazedAtObject = null;
+            if (reticlePointer)
+            {
+                reticlePointer.OnPointerExit();
+            }
         }
 
         // Checks for screen touches.
