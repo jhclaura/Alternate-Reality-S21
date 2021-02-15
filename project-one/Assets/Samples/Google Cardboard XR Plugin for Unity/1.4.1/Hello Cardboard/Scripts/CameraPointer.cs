@@ -24,7 +24,6 @@ using UnityEngine;
 /// </summary>
 public class CameraPointer : MonoBehaviour
 {
-    public LayerMask layerMasks;
     public GvrReticlePointer reticlePointer;
 
     private const float _maxDistance = 10;
@@ -38,7 +37,7 @@ public class CameraPointer : MonoBehaviour
         // Casts ray towards camera's forward direction, to detect if a GameObject is being gazed
         // at.
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, _maxDistance, layerMasks))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, _maxDistance))
         {
             // GameObject detected in front of the camera.
             if (_gazedAtObject != hit.transform.gameObject)
@@ -86,7 +85,7 @@ public class CameraPointer : MonoBehaviour
             Touch touch = Input.GetTouch(0);
             if (touch.phase == TouchPhase.Began)
             {
-                _gazedAtObject?.SendMessage("OnPointerClick", SendMessageOptions.DontRequireReceiver);
+                _gazedAtObject?.SendMessage("OnPointerClick");
             }
         }
 
@@ -94,7 +93,7 @@ public class CameraPointer : MonoBehaviour
 #if UNITY_EDITOR
         if (Input.GetMouseButtonDown(0))
         {
-            _gazedAtObject?.SendMessage("OnPointerClick", SendMessageOptions.DontRequireReceiver);
+            _gazedAtObject?.SendMessage("OnPointerClick");
         }
 #endif
     }

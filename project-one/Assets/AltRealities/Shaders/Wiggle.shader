@@ -40,10 +40,8 @@
         float _AnimationSpeed;
         float _Amplitude;
 
-        void vert (inout appdata_full data) {
-            float4 modifiedPos = data.vertex;
-            modifiedPos.y += sin(data.vertex.x * _Frequency + _Time.y * _AnimationSpeed) * _Amplitude;
-            data.vertex = modifiedPos;
+        void vert (inout appdata_full v) {
+            v.vertex.y += sin(v.vertex.x * _Frequency + _Time.y * _AnimationSpeed) * _Amplitude;
         }
 
         // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
